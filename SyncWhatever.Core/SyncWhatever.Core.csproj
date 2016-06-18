@@ -40,6 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IEntityWriter.cs" />
+    <Compile Include="ISyncTask.cs" />
+    <Compile Include="IEntityReader.cs" />
+    <Compile Include="ISyncState.cs" />
+    <Compile Include="ISyncStateReader.cs" />
+    <Compile Include="ISyncTaskConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
