@@ -41,6 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implementation\OneWaySyncTask.cs" />
+    <Compile Include="Implementation\OperationEnum.cs" />
+    <Compile Include="Implementation\StateChangeDetector.cs" />
+    <Compile Include="Implementation\SyncIteration.cs" />
+    <Compile Include="Implementation\SyncState.cs" />
+    <Compile Include="Implementation\SyncStateChange.cs" />
     <Compile Include="Interfaces\Composite\IEntityRepository.cs" />
     <Compile Include="Interfaces\IEntityWriter.cs" />
     <Compile Include="Interfaces\ISyncKeyMap.cs" />
@@ -49,7 +54,7 @@
     <Compile Include="Interfaces\IEntityReader.cs" />
     <Compile Include="Interfaces\ISyncState.cs" />
     <Compile Include="Interfaces\ISyncStateReader.cs" />
-    <Compile Include="Interfaces\ISyncTaskConfig.cs" />
+    <Compile Include="Interfaces\IOneWaySyncTaskConfig.cs" />
     <Compile Include="Interfaces\SyncTypeEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
