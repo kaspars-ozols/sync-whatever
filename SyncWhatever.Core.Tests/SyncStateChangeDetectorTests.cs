@@ -13,12 +13,12 @@ namespace SyncWhatever.Core.Tests
         [TestMethod]
         public void ShouldDetectCreates()
         {
-            var statesA = new List<ISyncState>();
-            var statesB = new List<ISyncState> { new SyncState("2", "B") };
+            var lastStates = new List<ISyncState>();
+            var currentStates = new List<ISyncState> { new SyncState("2", "B") };
 
             var sut = new SyncStateChangeDetector();
 
-            var changes = sut.DetectChanges(statesA, statesB);
+            var changes = sut.DetectChanges(lastStates, currentStates);
             changes.Should().HaveCount(1);
             changes.Should().Contain(x => x.ChangeType == OperationEnum.Create);
         }
@@ -26,12 +26,12 @@ namespace SyncWhatever.Core.Tests
         [TestMethod]
         public void ShouldDetectUpdates()
         {
-            var statesA = new List<ISyncState> { new SyncState("1", "A") };
-            var statesB = new List<ISyncState> { new SyncState("1", "AAA") };
+            var lastStates = new List<ISyncState> { new SyncState("1", "A") };
+            var currentStates = new List<ISyncState> { new SyncState("1", "AAA") };
 
             var sut = new SyncStateChangeDetector();
 
-            var changes = sut.DetectChanges(statesA, statesB);
+            var changes = sut.DetectChanges(lastStates, currentStates);
             changes.Should().HaveCount(1);
             changes.Should().Contain(x => x.ChangeType == OperationEnum.Update);
         }
@@ -39,12 +39,12 @@ namespace SyncWhatever.Core.Tests
         [TestMethod]
         public void ShouldDetectDeletes()
         {
-            var statesA = new List<ISyncState> { new SyncState("1", "A") };
-            var statesB = new List<ISyncState>();
+            var lastStates = new List<ISyncState> { new SyncState("1", "A") };
+            var currentStates = new List<ISyncState>();
 
             var sut = new SyncStateChangeDetector();
 
-            var changes = sut.DetectChanges(statesA, statesB);
+            var changes = sut.DetectChanges(lastStates, currentStates);
             changes.Should().HaveCount(1);
             changes.Should().Contain(x => x.ChangeType == OperationEnum.Delete);
         }
@@ -52,14 +52,13 @@ namespace SyncWhatever.Core.Tests
         [TestMethod]
         public void ShouldDetectNoChanges()
         {
-            var statesA = new List<ISyncState> { new SyncState("1", "A") };
-            var statesB = new List<ISyncState> { new SyncState("1", "A") };
+            var lastStates = new List<ISyncState> { new SyncState("1", "A") };
+            var currentStates = new List<ISyncState> { new SyncState("1", "A") };
 
             var sut = new SyncStateChangeDetector();
 
-            var changes = sut.DetectChanges(statesA, statesB);
+            var changes = sut.DetectChanges(lastStates, currentStates);
             changes.Should().HaveCount(0);
         }
-
     }
 }

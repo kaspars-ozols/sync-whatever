@@ -7,46 +7,46 @@ namespace SyncWhatever.Core.Implementation
     public class SyncStateChangeDetector
     {
         public IEnumerable<SyncStateChange> DetectChanges(
-            IEnumerable<ISyncState> syncStatesA,
-            IEnumerable<ISyncState> syncStatesB)
+            IEnumerable<ISyncState> lastStates,
+            IEnumerable<ISyncState> currentStates)
         {
-            foreach (var syncStateA in syncStatesA)
+            foreach (var lastState in lastStates)
             {
-                var syncStateB = syncStatesB
-                    .SingleOrDefault(x => x.EntityKey == syncStateA.EntityKey);
+                var currentState = currentStates
+                    .SingleOrDefault(x => x.EntityKey == lastState.EntityKey);
 
-                if (syncStateB == null)
+                if (currentState == null)
                 {
                     yield return new SyncStateChange
                     {
-                        LastSyncState = syncStateA,
+                        LastSyncState = lastState,
                         ChangeType = OperationEnum.Delete
                     };
                 }
                 else
                 {
-                    if (syncStateB.EntityState != syncStateA.EntityState)
+                    if (currentState.EntityState != lastState.EntityState)
                     {
                         yield return new SyncStateChange
                         {
-                            LastSyncState = syncStateA,
-                            CurrentSyncState = syncStateB,
+                            LastSyncState = lastState,
+                            CurrentSyncState = currentState,
                             ChangeType = OperationEnum.Update
                         };
                     }
                 }
             }
 
-            foreach (var syncStateB in syncStatesB)
+            foreach (var currentState in currentStates)
             {
-                var syncStateA = syncStatesA
-                    .SingleOrDefault(x => x.EntityKey == syncStateB.EntityKey);
+                var lastState = lastStates
+                    .SingleOrDefault(x => x.EntityKey == currentState.EntityKey);
 
-                if (syncStateA == null)
+                if (lastState == null)
                 {
                     yield return new SyncStateChange
                     {
-                        CurrentSyncState = syncStateB,
+                        CurrentSyncState = currentState,
                         ChangeType = OperationEnum.Create
                     };
                 }
