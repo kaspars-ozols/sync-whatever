@@ -1,4 +1,4 @@
-﻿namespace SyncWhatever.Core
+﻿namespace SyncWhatever.Core.Interfaces
 {
     /// <summary>
     ///     Provides write access (CRUD) to entity

@@ -1,4 +1,4 @@
-﻿namespace SyncWhatever.Core
+﻿namespace SyncWhatever.Core.Interfaces
 {
     /// <summary>
     ///     Provides configuration to synchronization task
@@ -13,5 +13,7 @@
         ISyncStateReader<TTargetEntity> TargetSyncStateReader { get; set; }
         IEntityReader<TTargetEntity> TargetReader { get; set; }
         IEntityWriter<TTargetEntity> TargetWriter { get; set; }
+
+        SyncTypeEnum SyncType { get; set; }
     }
 }

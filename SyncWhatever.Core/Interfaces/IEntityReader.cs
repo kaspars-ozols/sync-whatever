@@ -1,4 +1,4 @@
-﻿namespace SyncWhatever.Core
+﻿namespace SyncWhatever.Core.Interfaces
 {
     /// <summary>
     ///     Provides read access to entity

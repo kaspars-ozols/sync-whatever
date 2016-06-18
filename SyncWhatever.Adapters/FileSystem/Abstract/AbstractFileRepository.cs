@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using SyncWhatever.Core;
-using SyncWhatever.Core.Composite;
+using SyncWhatever.Core.Interfaces;
+using SyncWhatever.Core.Interfaces.Composite;
 
 namespace SyncWhatever.Components.FileSystem.Abstract
 {

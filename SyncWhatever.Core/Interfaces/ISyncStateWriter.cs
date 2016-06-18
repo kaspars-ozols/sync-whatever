@@ -1,4 +1,4 @@
-﻿namespace SyncWhatever.Core
+﻿namespace SyncWhatever.Core.Interfaces
 {
     public interface ISyncStateWriter<TEntity>
     {

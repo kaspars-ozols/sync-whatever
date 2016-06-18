@@ -40,14 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Composite\IEntityRepository.cs" />
-    <Compile Include="IEntityWriter.cs" />
-    <Compile Include="ISyncStateWriter.cs" />
-    <Compile Include="ISyncTask.cs" />
-    <Compile Include="IEntityReader.cs" />
-    <Compile Include="ISyncState.cs" />
-    <Compile Include="ISyncStateReader.cs" />
-    <Compile Include="ISyncTaskConfig.cs" />
+    <Compile Include="Implementation\OneWaySyncTask.cs" />
+    <Compile Include="Interfaces\Composite\IEntityRepository.cs" />
+    <Compile Include="Interfaces\IEntityWriter.cs" />
+    <Compile Include="Interfaces\ISyncKeyMap.cs" />
+    <Compile Include="Interfaces\ISyncStateWriter.cs" />
+    <Compile Include="Interfaces\ISyncTask.cs" />
+    <Compile Include="Interfaces\IEntityReader.cs" />
+    <Compile Include="Interfaces\ISyncState.cs" />
+    <Compile Include="Interfaces\ISyncStateReader.cs" />
+    <Compile Include="Interfaces\ISyncTaskConfig.cs" />
+    <Compile Include="Interfaces\SyncTypeEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
