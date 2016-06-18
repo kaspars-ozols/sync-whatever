@@ -6,18 +6,18 @@
     public interface IEntityWriter<TEntity>
     {
         /// <summary>
-        ///     Creates entity in storage, returns created entity
+        ///     Creates entity in storage, returns created entity key
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        TEntity CreateEntity(TEntity entity);
+        string CreateEntity(TEntity entity);
 
         /// <summary>
-        ///     Updates entity in storage, returns updated entity
+        ///     Updates entity in storage, returns updated entity key
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        TEntity UpdateEntity(TEntity entity);
+        string UpdateEntity(TEntity entity);
 
         /// <summary>
         ///     Deletes entity from storage

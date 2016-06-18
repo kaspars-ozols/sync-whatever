@@ -19,7 +19,7 @@ namespace SyncWhatever.Core.Implementation
                 {
                     yield return new SyncStateChange
                     {
-                        StateA = syncStateA,
+                        LastSyncState = syncStateA,
                         ChangeType = OperationEnum.Delete
                     };
                 }
@@ -29,8 +29,8 @@ namespace SyncWhatever.Core.Implementation
                     {
                         yield return new SyncStateChange
                         {
-                            StateA = syncStateA,
-                            StateB = syncStateB,
+                            LastSyncState = syncStateA,
+                            CurrentSyncState = syncStateB,
                             ChangeType = OperationEnum.Update
                         };
                     }
@@ -46,7 +46,7 @@ namespace SyncWhatever.Core.Implementation
                 {
                     yield return new SyncStateChange
                     {
-                        StateB = syncStateB,
+                        CurrentSyncState = syncStateB,
                         ChangeType = OperationEnum.Create
                     };
                 }

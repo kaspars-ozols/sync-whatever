@@ -3,11 +3,14 @@
     /// <summary>
     ///     Provides configuration to synchronization task
     /// </summary>
-    public interface IOneWaySyncTaskConfig<TSourceEntity, TTargetEntity>
+    public interface ISyncTaskConfig<TSourceEntity, TTargetEntity>
     {
-        ISyncStateReader<TSourceEntity> SourceSyncStateReader { get; set; }
-        ISyncStateReader<TSourceEntity> LastSourceSyncStateReader { get; set; }
+        ISyncStateReader<TSourceEntity> CurrentStateReader { get; set; }
+        ISyncStateReader<TSourceEntity> LastStateReader { get; set; }
 
+
+        ISyncKeyMapReader<TSourceEntity> KeyMapReader { get; set; }
+        ISyncKeyMapWriter<TSourceEntity> KeyMapWriter { get; set; }
 
 
         IEntityReader<TSourceEntity> SourceReader { get; set; }
@@ -17,6 +20,5 @@
         IEntityReader<TTargetEntity> TargetReader { get; set; }
         IEntityWriter<TTargetEntity> TargetWriter { get; set; }
 
-        SyncTypeEnum SyncType { get; set; }
     }
 }

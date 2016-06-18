@@ -21,17 +21,17 @@ namespace SyncWhatever.Components.FileSystem.Abstract
             return Deserialize(content);
         }
 
-        public TEntity CreateEntity(TEntity entity)
+        public string CreateEntity(TEntity entity)
         {
             return UpdateEntity(entity);
         }
 
-        public TEntity UpdateEntity(TEntity entity)
+        public string UpdateEntity(TEntity entity)
         {
             var content = Serialize(entity);
             var entityKey = EntityKeySelector(entity);
             WriteFile(entityKey, content);
-            return ReadEntity(entityKey);
+            return entityKey;
         }
 
         public void DeleteEntity(TEntity entity)

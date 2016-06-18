@@ -1,7 +1,6 @@
 ﻿namespace SyncWhatever.Core.Interfaces
 {
-    public enum SyncTypeEnum
+    public interface ISyncKeyMapReader<TEntity>
     {
-        OneWay
     }
 }

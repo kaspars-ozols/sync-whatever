@@ -4,8 +4,8 @@ namespace SyncWhatever.Core.Implementation
 {
     public class SyncStateChange
     {
-        public ISyncState StateA { get; set; }
-        public ISyncState StateB { get; set; }
+        public ISyncState LastSyncState { get; set; }
+        public ISyncState CurrentSyncState { get; set; }
         public OperationEnum ChangeType { get; set; }
     }
 }
