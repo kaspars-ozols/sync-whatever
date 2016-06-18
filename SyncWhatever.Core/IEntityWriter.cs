@@ -1,28 +1,28 @@
 ﻿namespace SyncWhatever.Core
 {
     /// <summary>
-    /// Provides write access (CRUD) to entity
+    ///     Provides write access (CRUD) to entity
     /// </summary>
     public interface IEntityWriter<TEntity>
     {
         /// <summary>
-        /// Creates entity in storage, returns created entity
+        ///     Creates entity in storage, returns created entity
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        TEntity Insert(TEntity entity);
+        TEntity CreateEntity(TEntity entity);
 
         /// <summary>
-        /// Updates entity in storage, returns updated entity
+        ///     Updates entity in storage, returns updated entity
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        TEntity Update(TEntity entity);
+        TEntity UpdateEntity(TEntity entity);
 
         /// <summary>
-        /// Deletes entity from storage
+        ///     Deletes entity from storage
         /// </summary>
         /// <param name="entity"></param>
-        void Delete(TEntity entity);
+        void DeleteEntity(TEntity entity);
     }
 }

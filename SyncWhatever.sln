@@ -7,9 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncWhatever.Core", "SyncWh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncWhatever.Core.Tests", "SyncWhatever.Core.Tests\SyncWhatever.Core.Tests.csproj", "{48D0C7D8-AA90-4FCE-A5BB-88DDBC6ED783}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncWhatever.Components", "SyncWhatever.Components\SyncWhatever.Components.csproj", "{FCCCD8B0-6E41-465F-81DE-9E999B8FDA79}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncWhatever.Adapters", "SyncWhatever.Adapters\SyncWhatever.Adapters.csproj", "{FCCCD8B0-6E41-465F-81DE-9E999B8FDA79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncWhatever.Components.Tests", "SyncWhatever.Components.Tests\SyncWhatever.Components.Tests.csproj", "{1286AD27-8FB1-4F58-9C20-2E86585F225F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncWhatever.Adapters.Tests", "SyncWhatever.Adapters.Tests\SyncWhatever.Adapters.Tests.csproj", "{1286AD27-8FB1-4F58-9C20-2E86585F225F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -40,7 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Composite\IEntityRepository.cs" />
     <Compile Include="IEntityWriter.cs" />
+    <Compile Include="ISyncStateWriter.cs" />
     <Compile Include="ISyncTask.cs" />
     <Compile Include="IEntityReader.cs" />
     <Compile Include="ISyncState.cs" />

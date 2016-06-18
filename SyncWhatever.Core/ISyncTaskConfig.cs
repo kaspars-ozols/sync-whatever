@@ -1,7 +1,7 @@
 ﻿namespace SyncWhatever.Core
 {
     /// <summary>
-    /// Provides configuration to synchronization task
+    ///     Provides configuration to synchronization task
     /// </summary>
     public interface ISyncTaskConfig<TSourceEntity, TTargetEntity>
     {
