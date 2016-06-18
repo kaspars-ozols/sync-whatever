@@ -13,7 +13,13 @@ namespace SyncWhatever.Core.Implementation
 
         public void Execute()
         {
-
+            // get state changes
+            // load source and target items
+            // detect data operation
+            // perform mapping
+            // store results
+            // store sync state
+            // store sync map
 
         }
     }

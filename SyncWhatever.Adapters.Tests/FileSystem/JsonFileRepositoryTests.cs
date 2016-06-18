@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SyncWhatever.Components.Tests.FileSystem
 {
     [TestClass]
-    public class JsonFileRepositoryTests
+    public class JsonFileRepositoryTestse
     {
         [TestMethod]
         public void TestMethod1()
