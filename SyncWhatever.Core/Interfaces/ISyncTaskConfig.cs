@@ -5,20 +5,16 @@
     /// </summary>
     public interface ISyncTaskConfig<TSourceEntity, TTargetEntity>
     {
-        ISyncStateReader<TSourceEntity> CurrentStateReader { get; set; }
-        ISyncStateReader<TSourceEntity> LastStateReader { get; set; }
-
-
-        ISyncKeyMapReader<TSourceEntity> KeyMapReader { get; set; }
-        ISyncKeyMapWriter<TSourceEntity> KeyMapWriter { get; set; }
-
-
+        ISyncStateReader CurrentStateReader { get; set; }
         IEntityReader<TSourceEntity> SourceReader { get; set; }
         IEntityWriter<TSourceEntity> SourceWriter { get; set; }
 
+        ISyncStateRepository StateRepository { get; set; }
+        ISyncKeyMapRepository KeyMapRepository { get; set; }
 
         IEntityReader<TTargetEntity> TargetReader { get; set; }
         IEntityWriter<TTargetEntity> TargetWriter { get; set; }
-
+        IEntityMapper<TSourceEntity, TTargetEntity> EntityMapper { get; set; }
+        string SyncTaskId { get; set; }
     }
 }

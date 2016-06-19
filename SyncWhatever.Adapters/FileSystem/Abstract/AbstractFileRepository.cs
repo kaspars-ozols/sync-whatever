@@ -8,13 +8,11 @@ using SyncWhatever.Core.Interfaces.Composite;
 
 namespace SyncWhatever.Components.FileSystem.Abstract
 {
-    public abstract class AbstractFileRepository<TEntity> : IEntityRepository<TEntity>, ISyncStateReader<TEntity>
+    public abstract class AbstractFileRepository<TEntity> : IEntityRepository<TEntity>, ISyncStateReader
     {
         public Func<TEntity, string> EntityKeySelector { get; set; }
         public string BaseDirectory { get; set; }
         public abstract string Extension { get; set; }
-
-
         public TEntity ReadEntity(string entityKey)
         {
             var content = ReadFile(entityKey);

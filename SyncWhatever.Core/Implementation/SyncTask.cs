@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using SyncWhatever.Core.Interfaces;
 
 namespace SyncWhatever.Core.Implementation
@@ -19,7 +20,8 @@ namespace SyncWhatever.Core.Implementation
         public void Execute()
         {
             // get sync state changes
-            var changes = GetSyncStateChanges();
+            var changes = GetSyncStateChanges()
+                .ToList();
 
             foreach (var change in changes)
             {
@@ -32,6 +34,9 @@ namespace SyncWhatever.Core.Implementation
                 // load source item
                 iteration.SourceEntityKey = ResolveSourceKey(iteration);
                 iteration.SourceEntity = ReadSourceEntity(iteration);
+
+                // load sync key map
+                iteration.SyncKeyMap = ResolveSyncKeyMap(iteration);
 
                 //load target item
                 iteration.TargetEntityKey = ResolveTargetKey(iteration);
@@ -48,13 +53,20 @@ namespace SyncWhatever.Core.Implementation
 
                 // store sync state
                 UpdateSyncState(iteration);
-
             }
+        }
+
+        private ISyncKeyMap ResolveSyncKeyMap(SyncIteration<TSourceEntity, TTargetEntity> iteration)
+        {
+            if (iteration.SourceEntityKey == null)
+                return null;
+
+            return _config.KeyMapRepository.Read(_config.SyncTaskId, iteration.SourceEntityKey);
         }
 
         private IEnumerable<SyncStateChange> GetSyncStateChanges()
         {
-            var lastStates = _config.LastStateReader.GetAllStates();
+            var lastStates = _config.StateRepository.GetAllStates();
             var currentStates = _config.CurrentStateReader.GetAllStates();
             return _syncStateChangeDetector.DetectChanges(lastStates, currentStates);
         }
@@ -67,21 +79,10 @@ namespace SyncWhatever.Core.Implementation
 
         private string ResolveTargetKey(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
-            if (iteration.SourceEntityKey == null)
+            if (iteration.SyncKeyMap == null)
                 return null;
 
-            //TODO: implement key map
-            //iteration.SyncKeyMap = _config.KeyMapReader.GetBySourceKey(Context, stateChange.SourceKey);
-
-            // stateChange.SyncKeyMap?.TargetKey;
-
-            //TODO: implement fallback
-            //if (iteration.SourceEntity != null && _config.tar)
-            //{
-            //    iteration.TargetEntity = _config.TargetReader.ReadEntity(iteration.SourceEntity);
-            //}
-            //TODO: implement properly
-            return null;
+            return iteration.SyncKeyMap.TargetKey;
         }
 
         private TSourceEntity ReadSourceEntity(SyncIteration<TSourceEntity, TTargetEntity> iteration)
@@ -122,17 +123,14 @@ namespace SyncWhatever.Core.Implementation
             switch (iteration.Operation)
             {
                 case OperationEnum.Create:
-                    //iteration.TargetEntity = null; // TODO: mapper.map
-                    return _config.TargetWriter.CreateEntity(iteration.TargetEntity);
-                    break;
+                    var targetToCreate = _config.EntityMapper.MapNew(iteration.SourceEntity);
+                    return _config.TargetWriter.CreateEntity(targetToCreate);
                 case OperationEnum.Update:
-                    //iteration.TargetEntity = null; // TODO: mapper.map
-                    return _config.TargetWriter.UpdateEntity(iteration.TargetEntity);
-                    break;
+                    var targetToDelete = _config.EntityMapper.MapExisting(iteration.SourceEntity, iteration.TargetEntity);
+                    return _config.TargetWriter.UpdateEntity(targetToDelete);
                 case OperationEnum.Delete:
                     _config.TargetWriter.DeleteEntity(iteration.TargetEntity);
                     return null;
-                    break;
                 case OperationEnum.None:
                     break;
             }
@@ -147,13 +145,13 @@ namespace SyncWhatever.Core.Implementation
                 case OperationEnum.Update:
                     if (iteration.SyncKeyMap == null)
                     {
-                        //TODO: _config.KeyMapWriter.Create
+                        _config.KeyMapRepository.Create(_config.SyncTaskId, iteration.SourceEntityKey, iteration.TargetEntityKey);
                     }
                     else
                     {
                         var syncKeyMap = iteration.SyncKeyMap;
-                        syncKeyMap.KeyB = iteration.TargetEntityKey;
-                        //TODO: _config.KeyMapWriter.Update
+                        syncKeyMap.TargetKey = iteration.TargetEntityKey;
+                        _config.KeyMapRepository.Update(syncKeyMap);
 
                     }
                     break;
@@ -162,7 +160,7 @@ namespace SyncWhatever.Core.Implementation
                 case OperationEnum.Delete:
                     if (iteration.SyncKeyMap != null)
                     {
-                        //TODO: _config.KeyMapWriter.Delete
+                        _config.KeyMapRepository.Delete(iteration.SyncKeyMap);
                     }
                     break;
                 default:
@@ -179,14 +177,13 @@ namespace SyncWhatever.Core.Implementation
 
                     if (iteration.LastSyncState == null)
                     {
-                        //SyncStateStorage.Create(Context, iteration.CurrentSyncState.EntityKey, iteration.CurrentSyncState.EntityState);
+                        _config.StateRepository.Create(iteration.CurrentSyncState.EntityKey, iteration.CurrentSyncState.EntityState);
                     }
                     else
                     {
                         var syncState = iteration.LastSyncState;
-                        //syncState.Context = Context;
                         syncState.EntityState = iteration.CurrentSyncState.EntityState;
-                        //SyncStateStorage.Update(syncState);
+                        _config.StateRepository.Update(syncState);
                     }
                     break;
 
@@ -194,7 +191,7 @@ namespace SyncWhatever.Core.Implementation
                 case OperationEnum.Delete:
                     if (iteration.LastSyncState != null)
                     {
-                        //SyncStateStorage.Delete(iteration.LastSyncState);
+                        _config.StateRepository.Delete(iteration.LastSyncState);
                     }
                     break;
                 default:

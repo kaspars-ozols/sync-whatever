@@ -48,6 +48,10 @@
     <Compile Include="FileSystem\Abstract\FileSyncState.cs" />
     <Compile Include="FileSystem\Json\JsonFileRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\InMemoryEntityRepository.cs" />
+    <Compile Include="Repositories\InMemorySyncKeyMapRepository.cs" />
+    <Compile Include="Repositories\InMemorySyncStateMapRepository.cs" />
+    <Compile Include="Repositories\SyncKeyMap.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SyncWhatever.Core\SyncWhatever.Core.csproj">

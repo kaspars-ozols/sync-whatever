@@ -40,18 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\SyncTaskConfig.cs" />
     <Compile Include="Implementation\SyncTask.cs" />
     <Compile Include="Implementation\OperationEnum.cs" />
     <Compile Include="Implementation\StateChangeDetector.cs" />
     <Compile Include="Implementation\SyncIteration.cs" />
     <Compile Include="Implementation\SyncState.cs" />
     <Compile Include="Implementation\SyncStateChange.cs" />
-    <Compile Include="Interfaces\ISyncKeyMapWriter.cs" />
-    <Compile Include="Interfaces\ISyncMapStorage.cs" />
+    <Compile Include="Interfaces\IEntityMapper.cs" />
+    <Compile Include="Interfaces\ISyncKeyMapRepository.cs" />
     <Compile Include="Interfaces\Composite\IEntityRepository.cs" />
     <Compile Include="Interfaces\IEntityWriter.cs" />
     <Compile Include="Interfaces\ISyncKeyMap.cs" />
-    <Compile Include="Interfaces\ISyncStateWriter.cs" />
+    <Compile Include="Interfaces\ISyncStateRepository.cs" />
     <Compile Include="Interfaces\ISyncTask.cs" />
     <Compile Include="Interfaces\IEntityReader.cs" />
     <Compile Include="Interfaces\ISyncState.cs" />

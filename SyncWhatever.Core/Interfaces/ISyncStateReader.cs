@@ -5,7 +5,7 @@ namespace SyncWhatever.Core.Interfaces
     /// <summary>
     ///     Provides states for given entity
     /// </summary>
-    public interface ISyncStateReader<TEntity>
+    public interface ISyncStateReader
     {
         /// <summary>
         ///     Returns all known states for given entity

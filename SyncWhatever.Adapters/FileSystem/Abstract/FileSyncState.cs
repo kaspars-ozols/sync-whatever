@@ -1,5 +1,4 @@
-﻿using SyncWhatever.Core;
-using SyncWhatever.Core.Interfaces;
+﻿using SyncWhatever.Core.Interfaces;
 
 namespace SyncWhatever.Components.FileSystem.Abstract
 {

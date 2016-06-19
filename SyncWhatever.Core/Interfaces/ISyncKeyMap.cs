@@ -5,7 +5,8 @@
     /// </summary>
     public interface ISyncKeyMap
     {
-        string KeyA { get; set; }
-        string KeyB { get; set; }
+        string SyncTaskId { get; set; }
+        string SourceKey { get; set; }
+        string TargetKey { get; set; }
     }
 }
