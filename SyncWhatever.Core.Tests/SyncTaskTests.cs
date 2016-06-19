@@ -18,9 +18,30 @@ namespace SyncWhatever.Core.Tests
         }
 
         [TestMethod]
-        public void ShouldSyncSourceToTarget()
+        public void ShouldSyncCreated()
         {
-            PerformSynchronization(200, 10, PerformRandomOperation);
+            PerformSynchronization(10, 10, CreateRandomEmployee);
+        }
+
+        [TestMethod]
+        public void ShouldSyncUpdated()
+        {
+            PerformSynchronization(1, 100, CreateRandomEmployee);
+            PerformSynchronization(1, 10, UpdateRandomEmployee);
+        }
+
+        [TestMethod]
+        public void ShouldSyncDeleted()
+        {
+            PerformSynchronization(1, 100, CreateRandomEmployee);
+            PerformSynchronization(1, 10, DeleteRandomEmployee);
+        }
+
+
+        [TestMethod]
+        public void ShouldSyncRandom()
+        {
+            PerformSynchronization(100, 10, PerformRandomOperation);
         }
 
         private void PerformSynchronization(int rounds, int manipulationsPerRound,
