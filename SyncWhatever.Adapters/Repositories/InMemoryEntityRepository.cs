@@ -47,7 +47,7 @@ namespace SyncWhatever.Components.Repositories
             Storage.Remove(key);
         }
 
-        public IEnumerable<ISyncState> GetAllStates()
+        public IEnumerable<ISyncState> GetAllStates(string syncTaskId)
         {
             return Storage
                 .Select(x => new SyncState(x.Key, _stateSelector(x.Value)));

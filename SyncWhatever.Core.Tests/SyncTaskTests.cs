@@ -98,7 +98,7 @@ namespace SyncWhatever.Core.Tests
                 .Select(x => x.Value)
                 .ShouldAllBeEquivalentTo(expectedUsers);
 
-            var expectedStates = employeeRepository.GetAllStates();
+            var expectedStates = employeeRepository.GetAllStates(syncTaskId);
 
             stateRepository.Storage
                 .ShouldAllBeEquivalentTo(expectedStates);

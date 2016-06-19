@@ -38,7 +38,7 @@ namespace SyncWhatever.Components.FileSystem.Abstract
             DeleteFile(entityKey);
         }
 
-        public IEnumerable<ISyncState> GetAllStates()
+        public IEnumerable<ISyncState> GetAllStates(string syncTaskId)
         {
             return new DirectoryInfo(BaseDirectory)
                 .EnumerateFiles()

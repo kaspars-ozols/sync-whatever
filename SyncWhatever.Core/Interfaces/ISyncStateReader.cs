@@ -10,7 +10,8 @@ namespace SyncWhatever.Core.Interfaces
         /// <summary>
         ///     Returns all known states for given entity
         /// </summary>
+        /// <param name="syncTaskId"></param>
         /// <returns></returns>
-        IEnumerable<ISyncState> GetAllStates();
+        IEnumerable<ISyncState> GetAllStates(string syncTaskId);
     }
 }

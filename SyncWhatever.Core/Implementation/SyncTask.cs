@@ -10,13 +10,11 @@ namespace SyncWhatever.Core.Implementation
     {
         private readonly ISyncTaskConfig<TSourceEntity, TTargetEntity> _config;
         private readonly SyncStateChangeDetector _syncStateChangeDetector;
-
         public SyncTask(ISyncTaskConfig<TSourceEntity, TTargetEntity> config)
         {
             _config = config;
             _syncStateChangeDetector = new SyncStateChangeDetector();
         }
-
         public void Execute()
         {
             // get sync state changes
@@ -55,7 +53,6 @@ namespace SyncWhatever.Core.Implementation
                 UpdateSyncState(iteration);
             }
         }
-
         private ISyncKeyMap ResolveSyncKeyMap(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
             if (iteration.SourceEntityKey == null)
@@ -63,20 +60,16 @@ namespace SyncWhatever.Core.Implementation
 
             return _config.KeyMapRepository.Read(_config.SyncTaskId, iteration.SourceEntityKey);
         }
-
         private IEnumerable<SyncStateChange> GetSyncStateChanges()
         {
-            var lastStates = _config.StateRepository.GetAllStates();
-            var currentStates = _config.CurrentStateReader.GetAllStates();
+            var lastStates = _config.StateRepository.GetAllStates(_config.SyncTaskId);
+            var currentStates = _config.CurrentStateReader.GetAllStates(_config.SyncTaskId);
             return _syncStateChangeDetector.DetectChanges(lastStates, currentStates);
         }
-
-
         private string ResolveSourceKey(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
             return iteration.CurrentSyncState?.EntityKey ?? iteration.LastSyncState?.EntityKey;
         }
-
         private string ResolveTargetKey(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
             if (iteration.SyncKeyMap == null)
@@ -84,7 +77,6 @@ namespace SyncWhatever.Core.Implementation
 
             return iteration.SyncKeyMap.TargetKey;
         }
-
         private TSourceEntity ReadSourceEntity(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
             if (iteration.SourceEntityKey == null)
@@ -92,7 +84,6 @@ namespace SyncWhatever.Core.Implementation
 
             return _config.SourceReader.ReadEntity(iteration.SourceEntityKey);
         }
-
         private TTargetEntity ReadTargetEntity(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
             if (iteration.TargetEntityKey == null)
@@ -100,7 +91,6 @@ namespace SyncWhatever.Core.Implementation
 
             return _config.TargetReader.ReadEntity(iteration.TargetEntityKey);
         }
-
         private OperationEnum DetectDataOperation(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
             if (iteration.SourceEntity != null && iteration.TargetEntity == null)
@@ -117,18 +107,22 @@ namespace SyncWhatever.Core.Implementation
             }
             return OperationEnum.None;
         }
-
         private string PerformDataOperation(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
             switch (iteration.Operation)
             {
                 case OperationEnum.Create:
                     var targetToCreate = _config.EntityMapper.MapNew(iteration.SourceEntity);
-                    return _config.TargetWriter.CreateEntity(targetToCreate);
+                    var targetToCreateKey =  _config.TargetWriter.CreateEntity(targetToCreate);
+                    _config.NestedTasks?.Invoke(iteration.SourceEntity, iteration.TargetEntity);
+                    return targetToCreateKey;
                 case OperationEnum.Update:
-                    var targetToDelete = _config.EntityMapper.MapExisting(iteration.SourceEntity, iteration.TargetEntity);
-                    return _config.TargetWriter.UpdateEntity(targetToDelete);
+                    var targetToUpdate = _config.EntityMapper.MapExisting(iteration.SourceEntity, iteration.TargetEntity);
+                    var targetToUpdateKey  = _config.TargetWriter.UpdateEntity(targetToUpdate);
+                    _config.NestedTasks?.Invoke(iteration.SourceEntity, iteration.TargetEntity);
+                    return targetToUpdateKey;
                 case OperationEnum.Delete:
+                    _config.NestedTasks?.Invoke(iteration.SourceEntity, iteration.TargetEntity);
                     _config.TargetWriter.DeleteEntity(iteration.TargetEntity);
                     return null;
                 case OperationEnum.None:
@@ -136,7 +130,6 @@ namespace SyncWhatever.Core.Implementation
             }
             return null;
         }
-
         private void UpdateSyncMap(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
             switch (iteration.Operation)
@@ -167,7 +160,6 @@ namespace SyncWhatever.Core.Implementation
                     throw new ArgumentOutOfRangeException();
             }
         }
-
         private void UpdateSyncState(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
             switch (iteration.Operation)
@@ -198,7 +190,5 @@ namespace SyncWhatever.Core.Implementation
                     throw new ArgumentOutOfRangeException();
             }
         }
-
-
     }
 }
