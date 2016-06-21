@@ -12,7 +12,7 @@ namespace SyncWhatever.Components.State
         {
         }
 
-        public static BinaryChecksum Calculate(object value, object key)
+        public static BinaryChecksum Calculate(object value, object key, string syncTaskId)
         {
             using (var stream = new MemoryStream())
             {
@@ -26,6 +26,7 @@ namespace SyncWhatever.Components.State
                 return new BinaryChecksum
                 {
                     EntityKey = key.ToString(),
+                    SyncTaskId = syncTaskId,
                     EntityState = BitConverter.ToString(hashBytes)
                 };
             }
@@ -36,6 +37,7 @@ namespace SyncWhatever.Components.State
             return $"EntityKey = '{EntityKey}', EntityState = '{EntityState}'";
         }
 
+        public string SyncTaskId { get; set; }
         public string EntityKey { get; set; }
         public string EntityState { get; set; }
     }

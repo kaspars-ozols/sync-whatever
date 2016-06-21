@@ -52,6 +52,7 @@
     <Compile Include="Repositories\InMemorySyncKeyMapRepository.cs" />
     <Compile Include="Repositories\InMemorySyncStateMapRepository.cs" />
     <Compile Include="Repositories\SyncKeyMap.cs" />
+    <Compile Include="State\BinaryChecksum.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SyncWhatever.Core\SyncWhatever.Core.csproj">

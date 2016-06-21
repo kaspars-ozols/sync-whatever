@@ -13,7 +13,7 @@ namespace SyncWhatever.Core.Implementation
             foreach (var lastState in lastStates)
             {
                 var currentState = currentStates
-                    .SingleOrDefault(x => x.EntityKey == lastState.EntityKey);
+                    .SingleOrDefault(x => x.SyncTaskId == lastState.SyncTaskId && x.EntityKey == lastState.EntityKey);
 
                 if (currentState == null)
                 {
@@ -40,7 +40,7 @@ namespace SyncWhatever.Core.Implementation
             foreach (var currentState in currentStates)
             {
                 var lastState = lastStates
-                    .SingleOrDefault(x => x.EntityKey == currentState.EntityKey);
+                    .SingleOrDefault(x => x.SyncTaskId == currentState.SyncTaskId && x.EntityKey == currentState.EntityKey);
 
                 if (lastState == null)
                 {

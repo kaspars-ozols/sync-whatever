@@ -14,7 +14,7 @@ namespace SyncWhatever.Core.Tests
         public void ShouldDetectCreates()
         {
             var lastStates = new List<ISyncState>();
-            var currentStates = new List<ISyncState> { new SyncState("2", "B") };
+            var currentStates = new List<ISyncState> { new SyncState("X", "2", "B") };
 
             var sut = new SyncStateChangeDetector();
 
@@ -26,8 +26,8 @@ namespace SyncWhatever.Core.Tests
         [TestMethod]
         public void ShouldDetectUpdates()
         {
-            var lastStates = new List<ISyncState> { new SyncState("1", "A") };
-            var currentStates = new List<ISyncState> { new SyncState("1", "AAA") };
+            var lastStates = new List<ISyncState> { new SyncState("X", "1", "A") };
+            var currentStates = new List<ISyncState> { new SyncState("X", "1", "AAA") };
 
             var sut = new SyncStateChangeDetector();
 
@@ -39,7 +39,7 @@ namespace SyncWhatever.Core.Tests
         [TestMethod]
         public void ShouldDetectDeletes()
         {
-            var lastStates = new List<ISyncState> { new SyncState("1", "A") };
+            var lastStates = new List<ISyncState> { new SyncState("X", "1", "A") };
             var currentStates = new List<ISyncState>();
 
             var sut = new SyncStateChangeDetector();
@@ -52,8 +52,8 @@ namespace SyncWhatever.Core.Tests
         [TestMethod]
         public void ShouldDetectNoChanges()
         {
-            var lastStates = new List<ISyncState> { new SyncState("1", "A") };
-            var currentStates = new List<ISyncState> { new SyncState("1", "A") };
+            var lastStates = new List<ISyncState> { new SyncState("X", "1", "A") };
+            var currentStates = new List<ISyncState> { new SyncState("X", "1", "A") };
 
             var sut = new SyncStateChangeDetector();
 

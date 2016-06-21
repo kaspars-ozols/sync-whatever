@@ -18,6 +18,6 @@ namespace SyncWhatever.Core.Interfaces
         IEntityWriter<TTarget> TargetWriter { get; set; }
         IEntityMapper<TSource, TTarget> EntityMapper { get; set; }
         string SyncTaskId { get; set; }
-        Action<TSource, TTarget> NestedTasks { get; set; }
+        Action<string, TSource, TTarget> NestedTasks { get; set; }
     }
 }

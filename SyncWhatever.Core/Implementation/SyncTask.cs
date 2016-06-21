@@ -109,20 +109,22 @@ namespace SyncWhatever.Core.Implementation
         }
         private string PerformDataOperation(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
+            var contextKey = $"{iteration.SourceEntityKey}";
+
             switch (iteration.Operation)
             {
                 case OperationEnum.Create:
                     var targetToCreate = _config.EntityMapper.MapNew(iteration.SourceEntity);
                     var targetToCreateKey =  _config.TargetWriter.CreateEntity(targetToCreate);
-                    _config.NestedTasks?.Invoke(iteration.SourceEntity, iteration.TargetEntity);
+                    _config.NestedTasks?.Invoke(contextKey,iteration.SourceEntity, iteration.TargetEntity);
                     return targetToCreateKey;
                 case OperationEnum.Update:
                     var targetToUpdate = _config.EntityMapper.MapExisting(iteration.SourceEntity, iteration.TargetEntity);
                     var targetToUpdateKey  = _config.TargetWriter.UpdateEntity(targetToUpdate);
-                    _config.NestedTasks?.Invoke(iteration.SourceEntity, iteration.TargetEntity);
+                    _config.NestedTasks?.Invoke(contextKey,iteration.SourceEntity, iteration.TargetEntity);
                     return targetToUpdateKey;
                 case OperationEnum.Delete:
-                    _config.NestedTasks?.Invoke(iteration.SourceEntity, iteration.TargetEntity);
+                    _config.NestedTasks?.Invoke(contextKey, iteration.SourceEntity, iteration.TargetEntity);
                     _config.TargetWriter.DeleteEntity(iteration.TargetEntity);
                     return null;
                 case OperationEnum.None:
@@ -169,11 +171,12 @@ namespace SyncWhatever.Core.Implementation
 
                     if (iteration.LastSyncState == null)
                     {
-                        _config.StateRepository.Create(iteration.CurrentSyncState.EntityKey, iteration.CurrentSyncState.EntityState);
+                        _config.StateRepository.Create(_config.SyncTaskId, iteration.CurrentSyncState.EntityKey, iteration.CurrentSyncState.EntityState);
                     }
                     else
                     {
                         var syncState = iteration.LastSyncState;
+                        syncState.SyncTaskId = iteration.CurrentSyncState.SyncTaskId;
                         syncState.EntityState = iteration.CurrentSyncState.EntityState;
                         _config.StateRepository.Update(syncState);
                     }

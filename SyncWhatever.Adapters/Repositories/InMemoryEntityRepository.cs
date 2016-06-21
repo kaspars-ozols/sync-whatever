@@ -50,7 +50,7 @@ namespace SyncWhatever.Components.Repositories
         public IEnumerable<ISyncState> GetAllStates(string syncTaskId)
         {
             return Storage
-                .Select(x => new SyncState(x.Key, _stateSelector(x.Value)));
+                .Select(x => new SyncState(syncTaskId, x.Key, _stateSelector(x.Value)));
         }
     }
 }

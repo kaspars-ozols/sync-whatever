@@ -10,27 +10,27 @@ namespace SyncWhatever.Components.Repositories
     {
         public List<ISyncState> Storage = new List<ISyncState>();
 
-        public void Create(string entityKey, string entityState)
+        public void Create(string syncTaskId, string entityKey, string entityState)
         {
-            var syncKeyMap = new SyncState(entityKey, entityState);
+            var syncKeyMap = new SyncState(syncTaskId, entityKey, entityState);
             Storage.Add(syncKeyMap);
         }
 
         public void Update(ISyncState syncState)
         {
-            var existingSyncState = Storage.Single(x => x.EntityKey == syncState.EntityKey);
+            var existingSyncState = Storage.Single(x => x.SyncTaskId == syncState.SyncTaskId && x.EntityKey == syncState.EntityKey);
             existingSyncState.EntityState = syncState.EntityState;
         }
 
         public void Delete(ISyncState syncState)
         {
-            var existingSyncState = Storage.Single(x => x.EntityKey == syncState.EntityKey);
+            var existingSyncState = Storage.Single(x => x.SyncTaskId == syncState.SyncTaskId && x.EntityKey == syncState.EntityKey);
             Storage.Remove(existingSyncState);
         }
 
         public IEnumerable<ISyncState> GetAllStates(string syncTaskId)
         {
-            return Storage;
+            return Storage.Where(x => x.SyncTaskId == syncTaskId);
         }
     }
 }

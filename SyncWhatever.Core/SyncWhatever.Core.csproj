@@ -47,6 +47,8 @@
     <Compile Include="Implementation\SyncIteration.cs" />
     <Compile Include="Implementation\SyncState.cs" />
     <Compile Include="Implementation\SyncStateChange.cs" />
+    <Compile Include="Interfaces\Composite\ISyncTarget.cs" />
+    <Compile Include="Interfaces\Composite\ISyncSource.cs" />
     <Compile Include="Interfaces\IEntityMapper.cs" />
     <Compile Include="Interfaces\ISyncKeyMapRepository.cs" />
     <Compile Include="Interfaces\Composite\IEntityRepository.cs" />

@@ -2,6 +2,7 @@
 
 namespace SyncWhatever.Core.Tests
 {
+    [Serializable]
     public class Employee
     {
         public Employee(Guid id, string fullName, string email)

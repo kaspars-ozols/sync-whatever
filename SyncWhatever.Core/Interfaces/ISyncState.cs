@@ -6,6 +6,10 @@ namespace SyncWhatever.Core.Interfaces
     public interface ISyncState
     {
         /// <summary>
+        ///     Context key allows to map states to certain task
+        /// </summary>
+        string SyncTaskId { get; set; }
+        /// <summary>
         ///     Entity key is anything that allows to uniquely identify entity
         /// </summary>
         string EntityKey { get; set; }
@@ -16,4 +20,6 @@ namespace SyncWhatever.Core.Interfaces
         /// </summary>
         string EntityState { get; set; }
     }
+
+
 }

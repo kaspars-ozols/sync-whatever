@@ -63,8 +63,16 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Account.cs" />
     <Compile Include="Employee.cs" />
-    <Compile Include="EmployeeUserMapper.cs" />
+    <Compile Include="EmployeeToUserMapper.cs" />
+    <Compile Include="Fakes\UserSyncTarget.cs" />
+    <Compile Include="Fakes\AccountSyncTarget.cs" />
+    <Compile Include="Fakes\OrganizationSyncSource.cs" />
+    <Compile Include="Fakes\EmployeeDataSource.cs" />
+    <Compile Include="Fakes\TestSession.cs" />
+    <Compile Include="Organization.cs" />
+    <Compile Include="OrganizationToAccountMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyncStateChangeDetectorTests.cs" />
     <Compile Include="SyncTaskTests.cs" />

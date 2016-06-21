@@ -2,7 +2,7 @@
 
 namespace SyncWhatever.Core.Tests
 {
-    public class EmployeeUserMapper : IEntityMapper<Employee, User>
+    public class EmployeeToUserMapper : IEntityMapper<Employee, User>
     {
         public User MapNew(Employee source)
         {
