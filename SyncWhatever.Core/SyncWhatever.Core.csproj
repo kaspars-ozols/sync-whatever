@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\ISyncStateChangeDetector.cs" />
     <Compile Include="Implementation\SyncTaskConfig.cs" />
     <Compile Include="Implementation\SyncTask.cs" />
     <Compile Include="Implementation\OperationEnum.cs" />

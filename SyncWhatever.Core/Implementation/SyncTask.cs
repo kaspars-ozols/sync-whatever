@@ -9,11 +9,9 @@ namespace SyncWhatever.Core.Implementation
     public class SyncTask<TSourceEntity, TTargetEntity> : ISyncTask
     {
         private readonly ISyncTaskConfig<TSourceEntity, TTargetEntity> _config;
-        private readonly SyncStateChangeDetector _syncStateChangeDetector;
         public SyncTask(ISyncTaskConfig<TSourceEntity, TTargetEntity> config)
         {
             _config = config;
-            _syncStateChangeDetector = new SyncStateChangeDetector();
         }
         public void Execute()
         {
@@ -64,7 +62,7 @@ namespace SyncWhatever.Core.Implementation
         {
             var lastStates = _config.StateRepository.GetAllStates(_config.SyncTaskId);
             var currentStates = _config.CurrentStateReader.GetAllStates(_config.SyncTaskId);
-            return _syncStateChangeDetector.DetectChanges(lastStates, currentStates);
+            return _config.SyncStateChangeDetector.DetectChanges(lastStates, currentStates);
         }
         private string ResolveSourceKey(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {

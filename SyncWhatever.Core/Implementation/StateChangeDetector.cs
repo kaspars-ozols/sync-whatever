@@ -4,7 +4,7 @@ using SyncWhatever.Core.Interfaces;
 
 namespace SyncWhatever.Core.Implementation
 {
-    public class SyncStateChangeDetector
+    public class SyncStateChangeDetector : ISyncStateChangeDetector
     {
         public IEnumerable<SyncStateChange> DetectChanges(
             IEnumerable<ISyncState> lastStates,
