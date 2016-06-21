@@ -65,7 +65,7 @@ namespace SyncWhatever.Core.Implementation
 
         private IEnumerable<Change<ISyncState>> GetSyncStateChanges()
         {
-            var lastStates = _config.StateRepository.GetAllStates(_config.SyncTaskId);
+            var lastStates = _config.StateStore.GetAllStates(_config.SyncTaskId);
             var currentStates = _config.CurrentStateReader.GetAllStates(_config.SyncTaskId);
             return _config.ChangeDetector.DetectChanges(lastStates, currentStates,
                 (x, y) => x.SyncTaskId == y.SyncTaskId && x.EntityKey == y.EntityKey,
@@ -184,7 +184,7 @@ namespace SyncWhatever.Core.Implementation
 
                     if (iteration.LastSyncState == null)
                     {
-                        _config.StateRepository.Create(_config.SyncTaskId, iteration.CurrentSyncState.EntityKey,
+                        _config.StateStore.Create(_config.SyncTaskId, iteration.CurrentSyncState.EntityKey,
                             iteration.CurrentSyncState.EntityState);
                     }
                     else
@@ -192,7 +192,7 @@ namespace SyncWhatever.Core.Implementation
                         var syncState = iteration.LastSyncState;
                         syncState.SyncTaskId = iteration.CurrentSyncState.SyncTaskId;
                         syncState.EntityState = iteration.CurrentSyncState.EntityState;
-                        _config.StateRepository.Update(syncState);
+                        _config.StateStore.Update(syncState);
                     }
                     break;
 
@@ -200,7 +200,7 @@ namespace SyncWhatever.Core.Implementation
                 case OperationEnum.Delete:
                     if (iteration.LastSyncState != null)
                     {
-                        _config.StateRepository.Delete(iteration.LastSyncState);
+                        _config.StateStore.Delete(iteration.LastSyncState);
                     }
                     break;
                 default:

@@ -42,26 +42,26 @@
   <ItemGroup>
     <Compile Include="ChangeDetection\ChangeType.cs" />
     <Compile Include="ChangeDetection\IChangeDetector.cs" />
-    <Compile Include="Implementation\SyncTaskConfig.cs" />
     <Compile Include="Implementation\SyncTask.cs" />
-    <Compile Include="Implementation\OperationEnum.cs" />
+    <Compile Include="SyncState\ISyncState.cs" />
+    <Compile Include="SyncState\ISyncStateReader.cs" />
+    <Compile Include="SyncState\SyncState.cs" />
+    <Compile Include="Sync\SyncTaskConfig.cs" />
+    <Compile Include="Sync\OperationEnum.cs" />
     <Compile Include="ChangeDetection\ChangeDetector.cs" />
-    <Compile Include="Implementation\SyncIteration.cs" />
-    <Compile Include="State\SyncState.cs" />
+    <Compile Include="Sync\SyncIteration.cs" />
     <Compile Include="ChangeDetection\Change.cs" />
-    <Compile Include="Interfaces\Composite\ISyncTarget.cs" />
-    <Compile Include="Interfaces\Composite\ISyncSource.cs" />
-    <Compile Include="Interfaces\IEntityMapper.cs" />
-    <Compile Include="Interfaces\ISyncKeyMapRepository.cs" />
-    <Compile Include="Interfaces\Composite\IEntityRepository.cs" />
-    <Compile Include="Interfaces\IEntityWriter.cs" />
-    <Compile Include="Interfaces\ISyncKeyMap.cs" />
-    <Compile Include="State\ISyncStateRepository.cs" />
-    <Compile Include="Interfaces\ISyncTask.cs" />
-    <Compile Include="Interfaces\IEntityReader.cs" />
-    <Compile Include="State\ISyncState.cs" />
-    <Compile Include="State\ISyncStateReader.cs" />
-    <Compile Include="Interfaces\ISyncTaskConfig.cs" />
+    <Compile Include="Entity\ISyncTarget.cs" />
+    <Compile Include="Entity\ISyncSource.cs" />
+    <Compile Include="Entity\IEntityMapper.cs" />
+    <Compile Include="SyncKeyMap\ISyncKeyMapRepository.cs" />
+    <Compile Include="Entity\IEntityRepository.cs" />
+    <Compile Include="Entity\IEntityWriter.cs" />
+    <Compile Include="SyncKeyMap\ISyncKeyMap.cs" />
+    <Compile Include="SyncState\ISyncStateStore.cs" />
+    <Compile Include="Sync\ISyncTask.cs" />
+    <Compile Include="Entity\IEntityReader.cs" />
+    <Compile Include="Sync\ISyncTaskConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

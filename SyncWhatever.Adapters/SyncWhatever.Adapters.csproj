@@ -50,7 +50,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\InMemoryEntityRepository.cs" />
     <Compile Include="Repositories\InMemorySyncKeyMapRepository.cs" />
-    <Compile Include="Repositories\InMemorySyncStateMapRepository.cs" />
+    <Compile Include="Repositories\InMemorySyncStateMapStore.cs" />
     <Compile Include="Repositories\SyncKeyMap.cs" />
     <Compile Include="State\BinaryChecksum.cs" />
   </ItemGroup>

@@ -2,13 +2,14 @@
 using SyncWhatever.Core.ChangeDetection;
 using SyncWhatever.Core.Interfaces;
 using SyncWhatever.Core.State;
+using SyncWhatever.Core.SyncState;
 
 namespace SyncWhatever.Core.Implementation
 {
     public class SyncTaskConfig<TSource, TTarget> : ISyncTaskConfig<TSource, TTarget>
     {
         public ISyncStateReader CurrentStateReader { get; set; }
-        public ISyncStateRepository StateRepository { get; set; }
+        public ISyncStateStore StateStore { get; set; }
         public ISyncKeyMapRepository KeyMapRepository { get; set; }
         public IEntityReader<TSource> SourceReader { get; set; }
         public IEntityWriter<TSource> SourceWriter { get; set; }

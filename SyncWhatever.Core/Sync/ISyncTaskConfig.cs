@@ -1,6 +1,7 @@
 ﻿using System;
 using SyncWhatever.Core.ChangeDetection;
 using SyncWhatever.Core.State;
+using SyncWhatever.Core.SyncState;
 
 namespace SyncWhatever.Core.Interfaces
 {
@@ -13,7 +14,7 @@ namespace SyncWhatever.Core.Interfaces
         IEntityReader<TSource> SourceReader { get; set; }
         IEntityWriter<TSource> SourceWriter { get; set; }
 
-        ISyncStateRepository StateRepository { get; set; }
+        ISyncStateStore StateStore { get; set; }
         ISyncKeyMapRepository KeyMapRepository { get; set; }
 
         IEntityReader<TTarget> TargetReader { get; set; }

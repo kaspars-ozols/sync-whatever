@@ -16,9 +16,9 @@ namespace SyncWhatever.Core.Tests.Fakes
         private readonly OrganizationSyncSource _organizationSyncSource;
         private readonly OrganizationToAccountMapper _organizationToAccountMapper;
         private readonly Random _random;
-        private readonly InMemorySyncStateMapRepository _stateRepository;
+        private readonly InMemorySyncStateMapRepository _stateStore;
         private readonly UserSyncTarget _userSyncTarget;
-        private ChangeDetector _changeDetector;
+        private readonly ChangeDetector _changeDetector;
 
 
         public TestSession()
@@ -26,7 +26,7 @@ namespace SyncWhatever.Core.Tests.Fakes
             _random = new Random();
 
             _keyMapRepository = new InMemorySyncKeyMapRepository();
-            _stateRepository = new InMemorySyncStateMapRepository();
+            _stateStore = new InMemorySyncStateMapRepository();
 
             _organizationSyncSource = new OrganizationSyncSource();
             _accountSyncTarget = new AccountSyncTarget();
@@ -48,7 +48,7 @@ namespace SyncWhatever.Core.Tests.Fakes
                 TargetReader = _accountSyncTarget,
                 TargetWriter = _accountSyncTarget,
                 KeyMapRepository = _keyMapRepository,
-                StateRepository = _stateRepository,
+                StateStore = _stateStore,
                 EntityMapper = _organizationToAccountMapper,
                 ChangeDetector = _changeDetector,
                 NestedTasks = (contextKey, organization, account) =>
@@ -62,7 +62,7 @@ namespace SyncWhatever.Core.Tests.Fakes
                         TargetReader = _userSyncTarget,
                         TargetWriter = _userSyncTarget,
                         KeyMapRepository = _keyMapRepository,
-                        StateRepository = _stateRepository,
+                        StateStore = _stateStore,
                         EntityMapper = _employeeToUserMapper,
                         ChangeDetector = _changeDetector,
                         NestedTasks = null
