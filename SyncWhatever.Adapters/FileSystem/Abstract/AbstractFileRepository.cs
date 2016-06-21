@@ -5,6 +5,7 @@ using System.Linq;
 using SyncWhatever.Core;
 using SyncWhatever.Core.Interfaces;
 using SyncWhatever.Core.Interfaces.Composite;
+using SyncWhatever.Core.State;
 
 namespace SyncWhatever.Components.FileSystem.Abstract
 {

@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using SyncWhatever.Core.Interfaces;
+using SyncWhatever.Core.State;
 
 namespace SyncWhatever.Components.State
 {

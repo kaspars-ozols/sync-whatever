@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using SyncWhatever.Core.ChangeDetection;
 using SyncWhatever.Core.Interfaces;
+using SyncWhatever.Core.State;
 
 namespace SyncWhatever.Core.Implementation
 {
     public class SyncTask<TSourceEntity, TTargetEntity> : ISyncTask
     {
         private readonly ISyncTaskConfig<TSourceEntity, TTargetEntity> _config;
+
         public SyncTask(ISyncTaskConfig<TSourceEntity, TTargetEntity> config)
         {
             _config = config;
         }
+
         public void Execute()
         {
             // get sync state changes
@@ -23,8 +26,8 @@ namespace SyncWhatever.Core.Implementation
             {
                 var iteration = new SyncIteration<TSourceEntity, TTargetEntity>
                 {
-                    LastSyncState = change.LastSyncState,
-                    CurrentSyncState = change.CurrentSyncState
+                    LastSyncState = change.Before,
+                    CurrentSyncState = change.After
                 };
 
                 // load source item
@@ -51,6 +54,7 @@ namespace SyncWhatever.Core.Implementation
                 UpdateSyncState(iteration);
             }
         }
+
         private ISyncKeyMap ResolveSyncKeyMap(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
             if (iteration.SourceEntityKey == null)
@@ -58,16 +62,21 @@ namespace SyncWhatever.Core.Implementation
 
             return _config.KeyMapRepository.Read(_config.SyncTaskId, iteration.SourceEntityKey);
         }
-        private IEnumerable<SyncStateChange> GetSyncStateChanges()
+
+        private IEnumerable<Change<ISyncState>> GetSyncStateChanges()
         {
             var lastStates = _config.StateRepository.GetAllStates(_config.SyncTaskId);
             var currentStates = _config.CurrentStateReader.GetAllStates(_config.SyncTaskId);
-            return _config.SyncStateChangeDetector.DetectChanges(lastStates, currentStates);
+            return _config.ChangeDetector.DetectChanges(lastStates, currentStates,
+                (x, y) => x.SyncTaskId == y.SyncTaskId && x.EntityKey == y.EntityKey,
+                (x, y) => x.EntityState == y.EntityState);
         }
+
         private string ResolveSourceKey(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
             return iteration.CurrentSyncState?.EntityKey ?? iteration.LastSyncState?.EntityKey;
         }
+
         private string ResolveTargetKey(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
             if (iteration.SyncKeyMap == null)
@@ -75,6 +84,7 @@ namespace SyncWhatever.Core.Implementation
 
             return iteration.SyncKeyMap.TargetKey;
         }
+
         private TSourceEntity ReadSourceEntity(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
             if (iteration.SourceEntityKey == null)
@@ -82,6 +92,7 @@ namespace SyncWhatever.Core.Implementation
 
             return _config.SourceReader.ReadEntity(iteration.SourceEntityKey);
         }
+
         private TTargetEntity ReadTargetEntity(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
             if (iteration.TargetEntityKey == null)
@@ -89,6 +100,7 @@ namespace SyncWhatever.Core.Implementation
 
             return _config.TargetReader.ReadEntity(iteration.TargetEntityKey);
         }
+
         private OperationEnum DetectDataOperation(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
             if (iteration.SourceEntity != null && iteration.TargetEntity == null)
@@ -105,6 +117,7 @@ namespace SyncWhatever.Core.Implementation
             }
             return OperationEnum.None;
         }
+
         private string PerformDataOperation(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
             var contextKey = $"{iteration.SourceEntityKey}";
@@ -113,13 +126,13 @@ namespace SyncWhatever.Core.Implementation
             {
                 case OperationEnum.Create:
                     var targetToCreate = _config.EntityMapper.MapNew(iteration.SourceEntity);
-                    var targetToCreateKey =  _config.TargetWriter.CreateEntity(targetToCreate);
-                    _config.NestedTasks?.Invoke(contextKey,iteration.SourceEntity, iteration.TargetEntity);
+                    var targetToCreateKey = _config.TargetWriter.CreateEntity(targetToCreate);
+                    _config.NestedTasks?.Invoke(contextKey, iteration.SourceEntity, iteration.TargetEntity);
                     return targetToCreateKey;
                 case OperationEnum.Update:
                     var targetToUpdate = _config.EntityMapper.MapExisting(iteration.SourceEntity, iteration.TargetEntity);
-                    var targetToUpdateKey  = _config.TargetWriter.UpdateEntity(targetToUpdate);
-                    _config.NestedTasks?.Invoke(contextKey,iteration.SourceEntity, iteration.TargetEntity);
+                    var targetToUpdateKey = _config.TargetWriter.UpdateEntity(targetToUpdate);
+                    _config.NestedTasks?.Invoke(contextKey, iteration.SourceEntity, iteration.TargetEntity);
                     return targetToUpdateKey;
                 case OperationEnum.Delete:
                     _config.NestedTasks?.Invoke(contextKey, iteration.SourceEntity, iteration.TargetEntity);
@@ -130,6 +143,7 @@ namespace SyncWhatever.Core.Implementation
             }
             return null;
         }
+
         private void UpdateSyncMap(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
             switch (iteration.Operation)
@@ -138,14 +152,14 @@ namespace SyncWhatever.Core.Implementation
                 case OperationEnum.Update:
                     if (iteration.SyncKeyMap == null)
                     {
-                        _config.KeyMapRepository.Create(_config.SyncTaskId, iteration.SourceEntityKey, iteration.TargetEntityKey);
+                        _config.KeyMapRepository.Create(_config.SyncTaskId, iteration.SourceEntityKey,
+                            iteration.TargetEntityKey);
                     }
                     else
                     {
                         var syncKeyMap = iteration.SyncKeyMap;
                         syncKeyMap.TargetKey = iteration.TargetEntityKey;
                         _config.KeyMapRepository.Update(syncKeyMap);
-
                     }
                     break;
 
@@ -160,6 +174,7 @@ namespace SyncWhatever.Core.Implementation
                     throw new ArgumentOutOfRangeException();
             }
         }
+
         private void UpdateSyncState(SyncIteration<TSourceEntity, TTargetEntity> iteration)
         {
             switch (iteration.Operation)
@@ -169,7 +184,8 @@ namespace SyncWhatever.Core.Implementation
 
                     if (iteration.LastSyncState == null)
                     {
-                        _config.StateRepository.Create(_config.SyncTaskId, iteration.CurrentSyncState.EntityKey, iteration.CurrentSyncState.EntityState);
+                        _config.StateRepository.Create(_config.SyncTaskId, iteration.CurrentSyncState.EntityKey,
+                            iteration.CurrentSyncState.EntityState);
                     }
                     else
                     {

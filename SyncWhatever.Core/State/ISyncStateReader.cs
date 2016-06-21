@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SyncWhatever.Core.Interfaces
+namespace SyncWhatever.Core.State
 {
     /// <summary>
     ///     Provides states for given entity

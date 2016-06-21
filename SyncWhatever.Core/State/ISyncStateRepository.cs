@@ -1,4 +1,4 @@
-﻿namespace SyncWhatever.Core.Interfaces
+﻿namespace SyncWhatever.Core.State
 {
     public interface ISyncStateRepository: ISyncStateReader
     {

@@ -1,5 +1,7 @@
 ﻿using System;
+using SyncWhatever.Core.ChangeDetection;
 using SyncWhatever.Core.Interfaces;
+using SyncWhatever.Core.State;
 
 namespace SyncWhatever.Core.Implementation
 {
@@ -15,6 +17,6 @@ namespace SyncWhatever.Core.Implementation
         public IEntityMapper<TSource, TTarget> EntityMapper { get; set; }
         public string SyncTaskId { get; set; }
         public Action<string, TSource, TTarget> NestedTasks { get; set; }
-        public ISyncStateChangeDetector SyncStateChangeDetector { get; set; }
+        public IChangeDetector ChangeDetector { get; set; }
     }
 }

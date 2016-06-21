@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using SyncWhatever.Components.Repositories;
+using SyncWhatever.Core.ChangeDetection;
 using SyncWhatever.Core.Implementation;
 
 namespace SyncWhatever.Core.Tests.Fakes
@@ -17,7 +18,7 @@ namespace SyncWhatever.Core.Tests.Fakes
         private readonly Random _random;
         private readonly InMemorySyncStateMapRepository _stateRepository;
         private readonly UserSyncTarget _userSyncTarget;
-        private SyncStateChangeDetector _changeDetector;
+        private ChangeDetector _changeDetector;
 
 
         public TestSession()
@@ -34,7 +35,7 @@ namespace SyncWhatever.Core.Tests.Fakes
             _userSyncTarget = new UserSyncTarget();
             _employeeToUserMapper = new EmployeeToUserMapper();
 
-            _changeDetector = new SyncStateChangeDetector();
+            _changeDetector = new ChangeDetector();
         }
 
         public void Sync()
@@ -49,7 +50,7 @@ namespace SyncWhatever.Core.Tests.Fakes
                 KeyMapRepository = _keyMapRepository,
                 StateRepository = _stateRepository,
                 EntityMapper = _organizationToAccountMapper,
-                SyncStateChangeDetector = _changeDetector,
+                ChangeDetector = _changeDetector,
                 NestedTasks = (contextKey, organization, account) =>
                 {
                     var syncSource = new EmployeeDataSource(organization);
@@ -63,7 +64,7 @@ namespace SyncWhatever.Core.Tests.Fakes
                         KeyMapRepository = _keyMapRepository,
                         StateRepository = _stateRepository,
                         EntityMapper = _employeeToUserMapper,
-                        SyncStateChangeDetector = _changeDetector,
+                        ChangeDetector = _changeDetector,
                         NestedTasks = null
                     };
                     new SyncTask<Employee, User>(employeeSyncConfig).Execute();

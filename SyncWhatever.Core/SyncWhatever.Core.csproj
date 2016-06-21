@@ -40,14 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\ISyncStateChangeDetector.cs" />
+    <Compile Include="ChangeDetection\ChangeType.cs" />
+    <Compile Include="ChangeDetection\IChangeDetector.cs" />
     <Compile Include="Implementation\SyncTaskConfig.cs" />
     <Compile Include="Implementation\SyncTask.cs" />
     <Compile Include="Implementation\OperationEnum.cs" />
-    <Compile Include="Implementation\StateChangeDetector.cs" />
+    <Compile Include="ChangeDetection\ChangeDetector.cs" />
     <Compile Include="Implementation\SyncIteration.cs" />
-    <Compile Include="Implementation\SyncState.cs" />
-    <Compile Include="Implementation\SyncStateChange.cs" />
+    <Compile Include="State\SyncState.cs" />
+    <Compile Include="ChangeDetection\Change.cs" />
     <Compile Include="Interfaces\Composite\ISyncTarget.cs" />
     <Compile Include="Interfaces\Composite\ISyncSource.cs" />
     <Compile Include="Interfaces\IEntityMapper.cs" />
@@ -55,14 +56,15 @@
     <Compile Include="Interfaces\Composite\IEntityRepository.cs" />
     <Compile Include="Interfaces\IEntityWriter.cs" />
     <Compile Include="Interfaces\ISyncKeyMap.cs" />
-    <Compile Include="Interfaces\ISyncStateRepository.cs" />
+    <Compile Include="State\ISyncStateRepository.cs" />
     <Compile Include="Interfaces\ISyncTask.cs" />
     <Compile Include="Interfaces\IEntityReader.cs" />
-    <Compile Include="Interfaces\ISyncState.cs" />
-    <Compile Include="Interfaces\ISyncStateReader.cs" />
+    <Compile Include="State\ISyncState.cs" />
+    <Compile Include="State\ISyncStateReader.cs" />
     <Compile Include="Interfaces\ISyncTaskConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

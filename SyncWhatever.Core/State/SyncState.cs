@@ -1,6 +1,4 @@
-﻿using SyncWhatever.Core.Interfaces;
-
-namespace SyncWhatever.Core.Implementation
+﻿namespace SyncWhatever.Core.State
 {
     public class SyncState : ISyncState
     {

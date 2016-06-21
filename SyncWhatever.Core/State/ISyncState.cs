@@ -1,4 +1,4 @@
-namespace SyncWhatever.Core.Interfaces
+namespace SyncWhatever.Core.State
 {
     /// <summary>
     ///     Describes entity state

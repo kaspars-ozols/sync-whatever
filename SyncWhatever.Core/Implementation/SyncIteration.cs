@@ -1,4 +1,5 @@
 ﻿using SyncWhatever.Core.Interfaces;
+using SyncWhatever.Core.State;
 
 namespace SyncWhatever.Core.Implementation
 {
